@@ -1,0 +1,24 @@
+<div class="main">
+  <div class="buttonBlock">
+    <button (click)="getInform('temperature')">Температура</button>
+    <button (click)="getInform('precipitation')">Осадки</button>
+  </div>
+  <div class="filterBlock">
+    <select [(ngModel)] = "yearStart" (ngModelChange)="buildChartData()">
+      <option *ngFor="let year of weatherYears">{{year}}</option>
+    </select>
+    <select [(ngModel)] = "yearEnd" (ngModelChange)="buildChartData()">
+      <option *ngFor="let year of weatherYears">{{year}}</option>
+    </select>
+  </div>
+  <div></div>
+  <div class="diagramBlock">
+    <canvas baseChart 
+      [datasets]="lineChartData"
+      [labels]="lineChartLabels"
+      [colors]="lineChartColors"
+      [legend]="lineChartLegend"
+      [chartType]="lineChartType">
+    </canvas>
+  </div>
+</div>
