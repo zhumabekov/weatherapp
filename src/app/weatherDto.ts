@@ -1,4 +1,4 @@
-export class WeatherData{
+export class WeatherDto {
   fulldate: string;
   value: number;
 }
