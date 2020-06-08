@@ -5,7 +5,7 @@
   grid-template-columns: 1fr 4fr;
   grid-gap: 2%;
 }
-.buttonBlock button{
+.button-block__button{
   width: 90%;
   padding: 2%;
   border-radius: 3%;
@@ -16,16 +16,16 @@
   margin-bottom: 2%;
   cursor: pointer;
 }
-.buttonBlock button:hover{
+.button-block__button:hover{
   background-color: #192a42;
   transition: all .2s linear;
 }
-.filterBlock{
+.filter-block{
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
 }
-.filterBlock select{
+.filter-block__select{
   border-radius: 3%;
   padding: 2%;
   width: 45%;
@@ -34,7 +34,8 @@
   
   border-bottom: 3px solid #355380;
 }
-.diagramBlock{
+.diagram-block{
+  grid-column: 2 / 3;
   overflow: auto;
   width: 100%;
 }

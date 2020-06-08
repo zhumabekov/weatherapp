@@ -1,5 +1,5 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
-import { HttpService } from './http.service';
+import { HttpService} from './http.service';
 import { ChartDataSets } from 'chart.js';
 import { Color, Label } from 'ng2-charts';
 import { WeatherAverageStat } from './weatherAverageStat';
@@ -11,10 +11,10 @@ import { WeatherDto } from './weatherDto';
     styleUrls: ['./app.component.css'],
     providers: [HttpService]
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit{ 
     yearStart: number;
     yearEnd: number;
-    averageStats: WeatherAverageStat[] = [];
+    averageStats: WeatherAverageStat[]=[];
 
     public lineChartData: ChartDataSets[] = [
         { data: [], label: '' },
@@ -29,18 +29,19 @@ export class AppComponent implements OnInit {
     public lineChartLegend = true;
     public lineChartType = 'line';
 
-    constructor(private httpService: HttpService, private elementRef: ElementRef) { }
-    ngOnInit() {
-        this.getWeatherStats();
+    constructor(private httpService: HttpService, private elementRef: ElementRef){}
+    ngOnInit(){
+        this.getInform();
     }
-    getWeatherStats(type: string = "temperature") {
-        this.lineChartData[0].label = type == "temperature" ? "Температура" : "Осадки";
-        this.httpService.getData(type).subscribe((dayStats: WeatherDto[]) => {
-            let temp = {};
-            dayStats.forEach((dayStat: WeatherDto) => {
-                let year = +dayStat.fulldate.substr(0, 4);
+    getInform(type: string = "temperature"){
+        this.averageStats = [];
+        this.lineChartData[0].label = type=="temperature" ? "Температура" : "Осадки";
+        this.httpService.getData(type).subscribe((dayStat: WeatherDto[])=>{
+            var temp = {};
+            dayStat.forEach((dayStat: WeatherDto)=>{
+                let year = +dayStat.fulldate.substr(0,4);
                 if (temp.hasOwnProperty(year)) {
-                    temp[year].total += dayStat.value;
+                    temp[year].total+=dayStat.value;
                     temp[year].count++;
                 } else {
                     temp[year] = {
@@ -51,7 +52,7 @@ export class AppComponent implements OnInit {
             })
             for (let year in temp) {
                 const yearStat = temp[year];
-                this.averageStats.push({ year: +year, average: +(yearStat.total / yearStat.count).toFixed(2) });
+                this.averageStats.push({ year: +year, average: +(yearStat.total / yearStat.count).toFixed(2)});
             }
             this.buildChartData();
         });
@@ -59,7 +60,7 @@ export class AppComponent implements OnInit {
     buildChartData() {
         this.lineChartData[0].data = [];
         this.lineChartLabels = [];
-
+        
         for (let i = 0; i < this.averageStats.length; i++) {
             const stat = this.averageStats[i];
             if (this.yearStart != null && stat.year < this.yearStart) {
@@ -72,4 +73,15 @@ export class AppComponent implements OnInit {
             this.lineChartData[0].data.push(stat.average);
         }
     }
+}
+if (typeof Worker !== 'undefined') {
+  // Create a new
+  const worker = new Worker('./app.worker', { type: 'module' });
+  worker.onmessage = ({ data }) => {
+    console.log(`page got message: ${data}`);
+  };
+  worker.postMessage('hello');
+} else {
+  // Web Workers are not supported in this environment.
+  // You should add a fallback so that your program still executes correctly.
 }

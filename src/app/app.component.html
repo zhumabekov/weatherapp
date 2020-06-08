@@ -1,19 +1,18 @@
 <div class="main">
-  <div class="buttonBlock">
-    <button (click)="getInform('temperature')">Температура</button>
-    <button (click)="getInform('precipitation')">Осадки</button>
+  <div class="button-block">
+    <button class="button-block__button" (click)="getInform('temperature')">Температура</button>
+    <button class="button-block__button" (click)="getInform('precipitation')">Осадки</button>
   </div>
-  <div class="filterBlock">
-    <select [(ngModel)] = "yearStart" (ngModelChange)="buildChartData()">
-      <option *ngFor="let year of weatherYears">{{year}}</option>
+  <div class="filter-block">
+    <select class="filter-block__select" [(ngModel)] = "yearStart" (ngModelChange)="buildChartData()">
+      <option *ngFor="let item of averageStats">{{item.year}}</option>
     </select>
-    <select [(ngModel)] = "yearEnd" (ngModelChange)="buildChartData()">
-      <option *ngFor="let year of weatherYears">{{year}}</option>
+    <select class="filter-block__select" [(ngModel)] = "yearEnd" (ngModelChange)="buildChartData()">
+      <option *ngFor="let item of averageStats">{{item.year}}</option>
     </select>
   </div>
-  <div></div>
-  <div class="diagramBlock">
-    <canvas baseChart 
+  <div class="diagram-block">
+    <canvas class="diagram-block__canvas" baseChart 
       [datasets]="lineChartData"
       [labels]="lineChartLabels"
       [colors]="lineChartColors"
